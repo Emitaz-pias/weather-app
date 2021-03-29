@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: url(images/bg-image.jpg) no-repeat;
+        background-size: cover;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form class="col-md-6 m-auto py-5">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            id="cityInp"
+            class="form-control"
+            placeholder="Enter a location for Weather ..."
+          />
+          <div class="input-group-append">
+            <button type="button" id="searchBtn" class="btn btn-danger">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      <div class="weather-status text-white text-center">
+        <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="" />
+        <h1 id="city">Dhaka</h1>
+        <h3><span id="temprature">00</span>&deg;C</h3>
+        <h1 class="lead" id="state"></h1>
+      </div>
+    </div>
+    <script>
+      document.getElementById("searchBtn").addEventListener("click", () => {
+        const city = document.getElementById("cityInp").value;
+        fetch(
+          "http://api.openweathermap.org/data/2.5/weather?q=" +
+            city +
+            " &appid=05e0ca2bbebe802dc483db6ed73f6a8a"
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const temp = data.main.temp;
+            const temperatureOnClecius = temp - 273.15;
+            const realTemprature = Math.floor(temperatureOnClecius);
+            document.getElementById("city").innerText = city;
+            document.getElementById("temprature").innerText = realTemprature;
+            document.getElementById("state").innerText = data.weather[0].main
+          });
+      });
+    </script>
+  </body>
+</html>
